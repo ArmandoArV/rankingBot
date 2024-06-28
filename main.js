@@ -1,5 +1,7 @@
-const { Client, IntentsBitField } = require("discord.js");
+const { Client, IntentsBitField, Collection } = require("discord.js");
+const fs = require("fs");
 require("dotenv").config();
+
 const client = new Client({
   intents: [
     IntentsBitField.Flags.Guilds,
@@ -9,29 +11,37 @@ const client = new Client({
   ],
 });
 
+client.commands = new Collection();
+
+const commandFiles = fs
+  .readdirSync("./Commands")
+  .filter((file) => file.endsWith(".js"));
+
+for (const file of commandFiles) {
+  const command = require(`./Commands/${file}`);
+  client.commands.set(command.name, command);
+}
+
 client.once("ready", () => {
   console.log("Ready!");
 });
 
 client.on("messageCreate", async (message) => {
-  switch (message.content) {
-    case "!ping":
-      message.channel.send("Pong!");
-      break;
-    case "!beep":
-      message.channel.send("Boop!");
-      break;
-    case "!server":
-      message.channel.send(
-        `Server name: ${message.guild.name}\nTotal members: ${message.guild.memberCount}`
-      );
-      break;
-    case "!user-info":
-      message.channel.send(
-        `Your username: ${message.author.username}\nYour ID: ${message.author.id}`
-      );
-      break;
+  if (!message.content.startsWith("!")) return;
+
+  const args = message.content.slice(1).split(" ");
+  const commandName = args.shift().toLowerCase();
+
+  const command = client.commands.get(commandName);
+
+  if (!command) return;
+
+  try {
+    await command.execute(message);
+  } catch (error) {
+    console.error(error);
+    message.reply("There was an error trying to execute that command!");
   }
 });
 
-client.login(process.env.TOKEN); // Replace this with your bot's token.
+client.login(process.env.TOKEN);
