@@ -1,18 +1,16 @@
 const noblox = require("noblox.js");
+const { idGrupo } = require("../constants.json");
 
 module.exports = {
   name: "group",
   async execute(message) {
-    // Extract the group ID from the message content
-    const args = message.content.split(" ");
-    if (args.length < 2) {
-      return message.channel.send("Please provide a group ID.");
-    }
-    const groupID = parseInt(args[1], 10);
+    const groupID = idGrupo;
+
+    /*parseInt(args[1], 10);
     if (isNaN(groupID)) {
       return message.channel.send("Invalid group ID.");
     }
-
+*/
     try {
       // Authenticate with Noblox
       const currentUser = await noblox.setCookie(process.env.ROBLOX_COOKIE);
