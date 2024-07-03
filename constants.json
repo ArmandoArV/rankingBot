@@ -9,5 +9,21 @@
     "admin": "1169714534005604386",
     "mod": "1202825104443056160",
     "membre": "1202825104443056160"
+  },
+  "rangos": {
+    "Soldado": 1,
+    "Cabo": 2,
+    "SargentoII": 3,
+    "SargentoI": 4,
+    "Subteniente": 5,
+    "Teniente": 6,
+    "CapitanII": 7,
+    "CapitanI": 8,
+    "Mayor": 9,
+    "TenienteCoronel": 10,
+    "Coronel": 11,
+    "GeneralBrigadier": 12,
+    "GeneralBrigada": 13,
+    "GeneralDivision": 14
   }
 }

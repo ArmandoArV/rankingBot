@@ -29,8 +29,6 @@ client.once("ready", () => {
 });
 
 client.on("messageCreate", async (message) => {
-  console.log(`Received message: ${message.content}`); // Debug log for received message
-
   if (!message.content.startsWith("!")) return;
 
   const args = message.content.slice(1).split(" ");
