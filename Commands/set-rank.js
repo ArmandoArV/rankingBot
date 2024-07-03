@@ -11,7 +11,7 @@ module.exports = {
     const rankName = args[2];
 
     if (!username || !rankName) {
-      return message.channel.send("Please provide a username and a rank.");
+      return message.channel.send("Ingresa un usuario y su rango.");
     }
 
     // Check if the user has the specific role to set rank

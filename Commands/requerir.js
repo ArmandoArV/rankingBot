@@ -8,7 +8,7 @@ module.exports = {
   async execute(message) {
     try {
       // Send a direct message to the user asking for their Roblox username
-      await message.author.send("Please provide your Roblox username.");
+      await message.author.send("Ingresa tu nombre de usuario");
       console.log(
         `Sent DM to user: ${message.author.username} [${message.author.id}]`
       );
@@ -30,7 +30,7 @@ module.exports = {
       );
 
       // Send a direct message to the user asking for their promotion picture
-      await message.author.send("Send a picture for your promotion.");
+      await message.author.send("Envía una imagen de prueba para tu ascenso.");
       console.log(
         `Sent DM to user: ${message.author.username} [${message.author.id}]`
       );
@@ -126,7 +126,7 @@ module.exports = {
                   await noblox.promote(idGrupo, UserID);
 
                   // Send a direct message to the user
-                  await member.send("Tu promoción ha sido aprobada.");
+                  await message.author.send("Tu promoción ha sido aprobada.");
 
                   // Send a message to the channel that the user was promoted
                   const promotedEmbed = new EmbedBuilder()
@@ -153,7 +153,7 @@ module.exports = {
                 console.log("DENIED");
 
                 // Send a direct message to the user
-                await member.send("Tu promoción ha sido denegada.");
+                await message.author.send("Tu promoción ha sido denegada.");
 
                 // Send a message to the channel that the user was denied
                 const deniedEmbed = new EmbedBuilder()
