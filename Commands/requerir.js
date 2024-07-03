@@ -65,14 +65,14 @@ module.exports = {
 
         // Create an embed with the user's information
         const embed = new EmbedBuilder()
-          .setTitle("Roblox Promotion Request")
+          .setTitle("Solicitud de Ascenso")
           .addFields(
             { name: "Usuario", value: userInfo.username, inline: true },
             { name: "Rango Actual", value: rank, inline: true }
           )
           .setImage(attachment.url)
           .setColor("#00AAFF")
-          .setFooter({ text: `Requested by ${message.author.username}` });
+          .setFooter({ text: `Solicitada por: ${message.author.username}` });
 
         // Send the embed to the Discord channel
         const channel = await message.client.channels.fetch(channelsId.promos);

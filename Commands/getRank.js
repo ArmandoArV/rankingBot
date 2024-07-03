@@ -4,14 +4,16 @@ const { EmbedBuilder } = require("discord.js");
 const { channelsId, rolesId, idGrupo } = require("../constants.json");
 
 module.exports = {
-  name: "promote",
+  name: "get-rank",
   async execute(message) {
-    // Based on the provided username, the bot will promote the user to the next rank
     const args = message.content.split(" ");
     const username = args[1];
+
     if (args.length < 2) {
       return message.channel.send("Please provide a username.");
     }
+
+    console.log(`Username: ${username}`);
 
     let userId;
     try {
@@ -19,10 +21,7 @@ module.exports = {
       userId = await noblox.getIdFromUsername(username);
       console.log(`User ID: ${userId}`);
     } catch (error) {
-      console.error(
-        `Error trying to get the user ID from the provided username: ${username}`,
-        error
-      );
+      console.error(`Error getting user ID from username: ${username}`, error);
       return message.reply(
         "There was an error trying to execute that command."
       );
@@ -30,24 +29,17 @@ module.exports = {
 
     try {
       await robloxLogin();
-      const userInfo = await noblox.getPlayerInfo(userId); // to get user info for the embed
-      const rank = await noblox.getRankNameInGroup(idGrupo, UserID);
-      await noblox.promote(idGrupo, userId);
-      message.channel.send(`User ${username} has been promoted.`);
+      const rank = await noblox.getRankNameInGroup(idGrupo, userId);
+      console.log(`Rank: ${rank}`);
 
       const promotedEmbed = new EmbedBuilder()
-        .setTitle("Promotion Approved")
-        .setDescription(
-          `User: ${userInfo.username}\nRank: ${rank}\nPromoted by: ${message.author.username}`
-        )
+        .setTitle(`Rango de ${username}`)
+        .setDescription(`Rango: ${rank}`)
         .setColor("#00FF00");
 
-      const promotionLogsChannel = await message.client.channels.fetch(
-        channelsId.logsPromos
-      );
-      await promotionLogsChannel.send({ embeds: [promotedEmbed] });
+      await message.channel.send({ embeds: [promotedEmbed] });
     } catch (error) {
-      console.error(`Error trying to promote user: ${username}`, error);
+      console.error(`Error getting rank for user ID: ${userId}`, error);
       message.reply("There was an error trying to execute that command.");
     }
   },

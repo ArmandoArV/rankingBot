@@ -21,6 +21,7 @@ const commandFiles = fs
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   client.commands.set(command.name, command);
+  console.log(`Loaded command: ${command.name}`); // Debug log for command loading
 }
 
 client.once("ready", () => {
@@ -28,6 +29,8 @@ client.once("ready", () => {
 });
 
 client.on("messageCreate", async (message) => {
+  console.log(`Received message: ${message.content}`); // Debug log for received message
+
   if (!message.content.startsWith("!")) return;
 
   const args = message.content.slice(1).split(" ");
@@ -35,12 +38,16 @@ client.on("messageCreate", async (message) => {
 
   const command = client.commands.get(commandName);
 
-  if (!command) return;
+  if (!command) {
+    console.log(`Command not found: ${commandName}`); // Debug log for command not found
+    return;
+  }
 
   try {
+    console.log(`Executing command: ${commandName}`);
     await command.execute(message);
   } catch (error) {
-    console.error(error);
+    console.error(`Error executing command: ${commandName}`, error);
     message.reply("There was an error trying to execute that command!");
   }
 });
